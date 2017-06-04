@@ -1,0 +1,14 @@
+.chat-settings-button {
+  padding: 1em;
+  text-align: center;
+}
+
+.chat-settings-button-text {
+  color: #7c7c86;
+  cursor: pointer;
+  transition: color 100ms ease-in-out;
+}
+
+.chat-settings-button-text:hover {
+  color: #aeadb4;
+}

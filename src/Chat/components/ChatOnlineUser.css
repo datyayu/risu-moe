@@ -1,0 +1,17 @@
+.chat-online-user, .chat-online-user--owner {
+  font-size: .9em;
+  max-width: 100%;
+  overflow: hidden;
+  padding: .4em;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  width: 100%;
+}
+
+.chat-online-user {
+  color: #7c7c86;
+}
+
+.chat-online-user--owner {
+  color: #aeadb4;
+}

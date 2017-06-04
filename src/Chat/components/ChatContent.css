@@ -1,0 +1,21 @@
+.chat-content {
+  display: flex;
+  flex-direction: column;
+  height: calc(90vh - 5em);
+  transform-origin: top;
+  transition: height 300ms ease-in-out,
+    opacity 200ms ease-in-out,
+    transform 200ms ease-in-out;
+}
+
+@media screen and (min-width: 780px) {
+  .chat-content {
+    height: calc(70vh - 4.5em);
+  }
+}
+
+.chat--min .chat-content {
+  height: 0;
+  opacity: 0;
+  transform: scaleY(0);
+}

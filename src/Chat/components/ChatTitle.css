@@ -1,0 +1,11 @@
+.chat-title {
+  color: white;
+  border-bottom: 1px solid white;
+  text-align: center;
+}
+
+.chat-title-text {
+  font-size: 2em;
+  margin: 0;
+  padding: .5em;
+}

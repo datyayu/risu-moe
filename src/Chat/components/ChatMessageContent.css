@@ -1,0 +1,18 @@
+.chat-message-user {
+  color: white;
+  font-size: 1.1em;
+  font-weight: bold;
+  margin-right: .5em;
+}
+
+.chat-message-text--system {
+  color: #45c2a0;
+}
+
+.chat-message-text--song {
+  font-size: 1.2em;
+}
+
+.chat-message-text--green {
+  color: #789922;
+}

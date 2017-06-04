@@ -1,0 +1,18 @@
+.chat-message {
+  align-items: flex-start;
+  border-top: 1px solid #7c7c86;
+  color: #aeadb4;
+  display: flex;
+  padding: 1em;
+}
+
+.chat-message-time {
+  border-right: 1px solid #7c7c86;
+  margin-right: .5em;
+  padding-right: .5em;
+}
+
+.chat-message-content {
+  display: inline-block;
+  margin-top: -.1em;
+}

@@ -1,0 +1,13 @@
+.chat-input {
+  background: transparent;
+  border: none;
+  border-top: 1px solid #aeadb4;
+  box-sizing: border-box;
+  color: white;
+  font-size: 1em;
+  height: 3em;
+  margin-top: auto;
+  outline: none;
+  padding: 1em 2em;
+  width: 100%;
+}

@@ -1,0 +1,39 @@
+html, body {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: "HelveticaNueu-Light", Helvetica, Arial, sans-serif;
+}
+
+body {
+  position: relative;
+}
+
+.container {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-attachment: fixed;
+  box-sizing: border-box;
+  margin: 0;
+  height: 100vh;
+  padding: 1em .5em;
+  width: 100vw;
+  overflow: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+@media screen and (min-width: 480px) {
+  .container {
+    padding: 1em 2em;
+  }
+}
+
+@media screen and (min-width: 780px) {
+  .top-content {
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+  }
+}
