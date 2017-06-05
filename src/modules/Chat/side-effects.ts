@@ -5,8 +5,6 @@ import { messagesService, usersService } from "../../services";
 import * as actions from "./actions";
 
 export function init() {
-  usersService.connect();
-
   messagesService.addMessagesListener(function(snapshot: fbdb.DataSnapshot) {
     const message: Message = snapshot.val();
     if (!message) return;

@@ -61,10 +61,9 @@ class UsersService {
 
   setUser(user: User): void {
     const userId = this.getUserId();
-    const userRef = this.database.ref("presence/" + userId);
-
     if (!userId) return;
 
+    const userRef = this.database.ref("presence/" + userId);
     user.id = userId;
 
     userRef.set(user).then(() => {
@@ -72,7 +71,7 @@ class UsersService {
     });
   }
 
-  connect(): void {
+  connect(): User | undefined {
     const userId = this.getUserId();
     const localUser = this.getLocalUser();
     const userRef = this.database.ref("presence/" + userId);
@@ -83,6 +82,8 @@ class UsersService {
     }
 
     userRef.onDisconnect().remove();
+
+    return localUser;
   }
 }
 

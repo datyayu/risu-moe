@@ -1,0 +1,71 @@
+.modal-overlay {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 9;
+  background-color: rgba(0, 0, 0, .6);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-box {
+  background: #f2f2f2;
+  padding: 1em 2em;
+  text-align: center;
+}
+
+.modal-text {
+  color: white;
+  font-size: 2em;
+  margin: .5em;
+}
+
+.modal-title {
+  color: #707070;
+  font-weight: normal;
+  font-size: 1.5em;
+  margin: 0;
+  padding: .5em;
+}
+
+.modal-input {
+  outline: none;
+  width: 100%;
+  padding: .75em;
+  font-size: 1em;
+  box-sizing: border-box;
+}
+
+.modal-button {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  box-shadow: none;
+  font-size: 1.2em;
+  padding: 1em;
+  cursor: pointer;
+}
+
+.modal-button:hover {
+  text-decoration: underline;
+}
+
+.modal-button--confirm {
+  color: #4aae93;
+}
+.modal-button--neutral {
+  color: #4d83c1;
+}
+
+.modal-button--disabled {
+  color: #7c7c86;
+  cursor: initial;
+}
+
+.modal-button--disabled:hover {
+  text-decoration: none;
+}

@@ -2,7 +2,9 @@ import * as React from "react";
 import { ChatComponent } from "./modules/Chat";
 import { PlaylistComponent } from "./modules/Playlist";
 import { PlayerComponent } from "./modules/Player";
+import { NickModalComponent } from "./modules/NickModal";
 import "./App.css";
+import "./modal.css";
 
 export function App() {
   return (
@@ -16,6 +18,7 @@ export function App() {
       </div>
 
       <PlayerComponent />
+      <NickModalComponent />
     </div>
   );
 }
