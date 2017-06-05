@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { User } from "../../types/User";
-import { AppState } from "../../store";
+import { User } from "../../../types/User";
+import { AppState } from "../../../store";
 import { ChatOnlineUser } from "./ChatOnlineUser";
 import "./ChatOnlineUserList.css";
 

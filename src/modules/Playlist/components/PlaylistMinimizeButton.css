@@ -1,0 +1,21 @@
+.playlist-min-button {
+  cursor: pointer;
+  height: 2.5em;
+  position: absolute;
+  right: 0;
+  top: .5em;
+  width: 2.5em;
+}
+
+.playlist-min-line {
+  background: white;
+  height: .25em;
+  position: absolute;
+  top: 1.25em;
+  transition: transform 300ms ease-in-out;
+  width: 1.5em;
+}
+
+.playlist--min .playlist-min-line:nth-child(2) {
+  transform: rotateZ(90deg);
+}

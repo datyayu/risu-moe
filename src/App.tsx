@@ -1,5 +1,6 @@
 import * as React from "react";
-import { ChatComponent } from "./Chat";
+import { ChatComponent } from "./modules/Chat";
+import { PlaylistComponent } from "./modules/Playlist";
 import "./App.css";
 
 export function App() {
@@ -10,6 +11,7 @@ export function App() {
     >
       <div className="top-content">
         <ChatComponent />
+        <PlaylistComponent />
       </div>
     </div>
   );

@@ -1,8 +1,8 @@
 import * as React from "react";
 import { connect } from "react-redux";
+import { AppState } from "../../../store";
 import { updateInput, postMessage } from "../actions";
-import { AppState } from "../../store";
-import { ENTER } from "../../config/key-codes";
+import { ENTER } from "../../../config/key-codes";
 import "./ChatInput.css";
 
 interface ChatInputProps {

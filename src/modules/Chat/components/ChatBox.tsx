@@ -1,7 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Message } from "../../types";
-import { AppState } from "../../store";
+import { Message } from "../../../types";
+import { AppState } from "../../../store";
 import { ChatMessage } from "./ChatMessage";
 import "./ChatBox.css";
 

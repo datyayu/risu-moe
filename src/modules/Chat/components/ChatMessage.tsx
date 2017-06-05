@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Message } from "../../types";
+import { Message } from "../../../types";
 import { ChatMessageContent } from "./ChatMessageContent";
 import "./ChatMessage.css";
 

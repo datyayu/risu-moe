@@ -1,6 +1,5 @@
-import { User, Message, Action } from "../types";
-
-import { messagesService } from "../services/messages";
+import { User, Message, Action } from "../../types";
+import { messagesService } from "../../services/messages";
 
 export const UPDATE_INPUT = "chat/UPDATE_INPUT";
 export const UPDATE_ONLINE_USERS = "chat/UPDATE_ONLINE_USERS";

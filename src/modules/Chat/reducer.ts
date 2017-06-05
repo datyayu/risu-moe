@@ -1,4 +1,4 @@
-import { User, Message, Action } from "../types";
+import { User, Message, Action } from "../../types";
 import * as actions from "./actions";
 
 export type ChatState = {

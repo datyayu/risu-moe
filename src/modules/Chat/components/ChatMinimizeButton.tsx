@@ -1,6 +1,6 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { AppState } from "../../store";
+import { AppState } from "../../../store";
 import { toggleChat } from "../actions";
 import "./ChatMinimizeButton.css";
 

@@ -1,16 +1,19 @@
 import { createStore, combineReducers, applyMiddleware, compose } from "redux";
-import { ChatState, chatReducer } from "./Chat";
+import { ChatState, chatReducer } from "./modules/Chat";
+import { PlaylistState, playlistReducer } from "./modules/Playlist";
 
 // reducer type
-export type AppState = {
+export interface AppState {
   chat: ChatState;
-};
+  playlist: PlaylistState;
+}
 
 const windowGlobal = <any>window;
 
 // Setup reducers
 const reducer = combineReducers({
-  chat: chatReducer
+  chat: chatReducer,
+  playlist: playlistReducer
 });
 
 // Setup middleware

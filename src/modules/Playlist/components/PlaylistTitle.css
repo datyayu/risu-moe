@@ -1,0 +1,10 @@
+.playlist-title {
+  border-bottom: 1px solid white;
+  color: white;
+  text-align: center;
+}
+
+.playlist-title-text {
+  margin: 0;
+  padding: 1em;
+}

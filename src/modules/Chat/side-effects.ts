@@ -1,8 +1,7 @@
 import { database as fbdb } from "firebase";
-import { User, Message } from "../types";
-
-import { store } from "../store";
-import { messagesService, usersService } from "../services";
+import { User, Message } from "../../types";
+import { store } from "../../store";
+import { messagesService, usersService } from "../../services";
 import * as actions from "./actions";
 
 export function init() {
