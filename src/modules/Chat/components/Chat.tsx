@@ -1,6 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { AppState } from "../../../store";
+import * as Selectors from "../selectors";
 import { ChatTitle } from "./ChatTitle";
 import { ChatContent } from "./ChatContent";
 import { ChatMinimizeButton } from "./ChatMinimizeButton";
@@ -27,8 +28,8 @@ const ChatComponent = ({ minimized }: ChatProps) =>
     </div>
   </div>;
 
-function mapStateToProps({ chat }: AppState): ChatProps {
-  return { minimized: chat.minimized };
+function mapStateToProps(state: AppState): ChatProps {
+  return { minimized: Selectors.isChatMinimized(state) };
 }
 
 export const Chat: React.ComponentClass<{}> = connect(mapStateToProps)(

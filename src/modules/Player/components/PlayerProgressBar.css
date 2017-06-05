@@ -1,0 +1,14 @@
+.player-progress-bar {
+  border: 1px solid white;
+  margin: .2em 0;
+  height: 1em;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.player-progress-current {
+  background-color: white;
+  height: .75em;
+  margin: .05em;
+  box-sizing: border-box;
+}

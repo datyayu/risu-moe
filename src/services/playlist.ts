@@ -19,7 +19,7 @@ class PlaylistService {
         var db = snapshot.val();
         if (!db) return;
 
-        var songs = Object.keys(db).map(function(key) {
+        var songs = Object.keys(db).map(function(key: string) {
           return db[key];
         });
 

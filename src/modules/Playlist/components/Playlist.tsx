@@ -1,6 +1,7 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { AppState } from "../../../store";
+import * as Selectors from "../selectors";
 import { PlaylistSongList } from "./PlaylistSongList";
 import { PlaylistTitle } from "./PlaylistTitle";
 import { PlaylistMinimizeButton } from "./PlaylistMinimizeButton";
@@ -17,9 +18,9 @@ const PlaylistComponent = ({ minimized }: PlaylistComponentProps) =>
     <PlaylistSongList />
   </div>;
 
-function mapStateToProps({ playlist }: AppState) {
+function mapStateToProps(state: AppState) {
   return {
-    minimized: playlist.minimized
+    minimized: Selectors.playlistIsMinimized(state)
   };
 }
 

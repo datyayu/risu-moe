@@ -13,7 +13,7 @@ const initialState: ChatState = {
   messages: [],
   user: undefined,
   onlineUsers: [],
-  input: "hello",
+  input: "",
   minimized: false
 };
 

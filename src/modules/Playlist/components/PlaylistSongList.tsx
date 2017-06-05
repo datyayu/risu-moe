@@ -2,6 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { AppState } from "../../../store";
 import { Song } from "../../../types";
+import * as Selectors from "../selectors";
 import { PlaylistSong } from "./PlaylistSong";
 import "./PlaylistSongList.css";
 
@@ -14,9 +15,9 @@ const PlaylistSongListComponent = ({ songs = [] }: PlaylistSongListProps) =>
     {songs.map((song, index) => <PlaylistSong key={index} song={song} />)}
   </ul>;
 
-function mapStateToProps({ playlist }: AppState): PlaylistSongListProps {
+function mapStateToProps(state: AppState): PlaylistSongListProps {
   return {
-    songs: playlist.songs
+    songs: Selectors.getPlaylistSongs(state)
   };
 }
 

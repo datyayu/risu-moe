@@ -1,0 +1,43 @@
+.player-song {
+  width: 100%;
+  background-color: rgba(0, 0, 0, .6);
+  height: 6em;
+  margin-top: .5em;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.player-song-cover {
+  height: 96px;
+  width: 96px;
+}
+
+.player-song-cover-image {
+  height: 6em;
+  width: 6em;
+  padding: 2px;
+  border: 1px solid white;
+  box-sizing: border-box;
+}
+
+.player-song-info {
+  padding: .5em 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  height: 6em;
+  box-sizing: border-box;
+}
+
+.player-song-title {
+  color: white;
+  font-weight: bold;
+  font-size: 2em;
+  margin: 0;
+}
+
+.player-song-user {
+  color: #aeadb4;
+  margin: 0;
+}

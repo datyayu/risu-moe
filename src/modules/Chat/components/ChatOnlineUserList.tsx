@@ -2,6 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { User } from "../../../types/User";
 import { AppState } from "../../../store";
+import * as Selectors from "../selectors";
 import { ChatOnlineUser } from "./ChatOnlineUser";
 import "./ChatOnlineUserList.css";
 
@@ -22,9 +23,9 @@ function ChatOnlineUserListComponent(props: ChatOnlineUserListProps) {
   );
 }
 
-function mapStateToProps({ chat }: AppState) {
+function mapStateToProps(state: AppState) {
   return {
-    users: chat.onlineUsers
+    users: Selectors.getOnlineUsers(state)
   };
 }
 

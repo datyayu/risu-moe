@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { AppState } from "../../../store";
 import { updateInput, postMessage } from "../actions";
 import { ENTER } from "../../../config/key-codes";
+import * as Selectors from "../selectors";
 import "./ChatInput.css";
 
 interface ChatInputProps {
@@ -45,9 +46,9 @@ class ChatInputComponent extends React.Component<ChatInputProps, void> {
   }
 }
 
-function mapStateToProps({ chat }: AppState) {
+function mapStateToProps(state: AppState) {
   return {
-    text: chat.input
+    text: Selectors.getChatInputValue(state)
   };
 }
 
