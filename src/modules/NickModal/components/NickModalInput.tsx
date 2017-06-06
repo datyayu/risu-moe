@@ -35,7 +35,6 @@ export class NickModalInput extends React.Component<NickModalInputProps, {}> {
 
   render() {
     const customBorder = `3px solid #${this.props.value}`;
-    console.log(customBorder);
 
     return (
       <div>

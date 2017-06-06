@@ -1,3 +1,4 @@
+export * from "./file-upload";
 export * from "./firebase";
 export * from "./messages";
 export * from "./playlist";

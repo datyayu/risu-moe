@@ -3,6 +3,10 @@ import { ChatState, chatReducer } from "./modules/Chat";
 import { PlaylistState, playlistReducer } from "./modules/Playlist";
 import { PlayerState, playerReducer } from "./modules/Player";
 import { NickModalState, nickModalReducer } from "./modules/NickModal";
+import {
+  UploadFileOverlayState,
+  uploadFileOverlayReducer
+} from "./modules/UploadFileOverlay";
 
 // Store State type
 export interface AppState {
@@ -10,6 +14,7 @@ export interface AppState {
   nickModal: NickModalState;
   player: PlayerState;
   playlist: PlaylistState;
+  uploadFileOverlay: UploadFileOverlayState;
 }
 
 const windowGlobal = <any>window;
@@ -19,7 +24,8 @@ const reducer = combineReducers({
   chat: chatReducer,
   nickModal: nickModalReducer,
   player: playerReducer,
-  playlist: playlistReducer
+  playlist: playlistReducer,
+  uploadFileOverlay: uploadFileOverlayReducer
 });
 
 // Setup middleware
