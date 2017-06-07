@@ -1,11 +1,11 @@
 .player-song {
-  width: 100%;
+  align-items: center;
   background-color: rgba(0, 0, 0, .6);
+  box-sizing: border-box;
+  display: flex;
   height: 6em;
   margin-top: .5em;
-  display: flex;
-  align-items: center;
-  box-sizing: border-box;
+  width: 100%;
 }
 
 .player-song-cover {
@@ -14,20 +14,20 @@
 }
 
 .player-song-cover-image {
-  height: 6em;
-  width: 6em;
-  padding: 2px;
   border: 1px solid white;
   box-sizing: border-box;
+  height: 6em;
+  padding: 2px;
+  width: 6em;
 }
 
 .player-song-info {
-  padding: .5em 1em;
+  box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   height: 6em;
-  box-sizing: border-box;
+  justify-content: space-around;
+  padding: .5em 1em;
 }
 
 .player-song-title {

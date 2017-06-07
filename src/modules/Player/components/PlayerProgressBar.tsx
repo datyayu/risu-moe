@@ -1,8 +1,7 @@
 import * as React from "react";
 import { AppState } from "../../../store";
 import { connect } from "react-redux";
-import * as PlayerSelectors from "../selectors";
-import * as PlaylistSelectors from "../../Playlist/selectors";
+import * as Selectors from "../selectors";
 import "./PlayerProgressBar.css";
 
 interface ProgressBarProps {
@@ -11,25 +10,25 @@ interface ProgressBarProps {
 }
 
 export const ProgressBarComponent = ({ current, total }: ProgressBarProps) => {
-  const widthPercentage = total ? `${current / total * 100}%` : "32%";
+  const transformProgress = total ? current / total : 0;
 
   return (
     <div className="player-progress-bar">
       <div
         className="player-progress-current"
-        style={{ width: widthPercentage }}
+        style={{ transform: `scaleX(${transformProgress})` }}
       />
     </div>
   );
 };
 
 function mapStateToProps(state: AppState): ProgressBarProps {
-  const currentSong = PlaylistSelectors.getCurrentSong(state);
-  const currentProgress = PlayerSelectors.getCurrentPlayerProgress(state);
+  const currentDuration = Selectors.getCurrentSongDuration(state);
+  const currentProgress = Selectors.getCurrentPlayerProgress(state);
 
   return {
     current: currentProgress,
-    total: currentSong && parseInt(currentSong.duration, 10)
+    total: currentDuration
   };
 }
 

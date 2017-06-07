@@ -1,16 +1,16 @@
 .modal-overlay {
-  pointer-events: none;
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
-  top: 0;
-  left: 0;
-  z-index: 9;
+  align-items: center;
   background-color: rgba(0, 0, 0, .6);
   display: flex;
   flex-direction: column;
+  height: 100vh;
   justify-content: center;
-  align-items: center;
+  left: 0;
+  pointer-events: none;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: 9;
 }
 
 .modal-box {
@@ -20,36 +20,36 @@
 }
 
 .modal-text {
-  pointer-events: none;
   color: white;
   font-size: 2em;
   margin: .5em;
+  pointer-events: none;
 }
 
 .modal-title {
   color: #707070;
-  font-weight: normal;
   font-size: 1.5em;
+  font-weight: normal;
   margin: 0;
   padding: .5em;
 }
 
 .modal-input {
-  outline: none;
-  width: 100%;
-  padding: .75em;
-  font-size: 1em;
   box-sizing: border-box;
+  font-size: 1em;
+  outline: none;
+  padding: .75em;
+  width: 100%;
 }
 
 .modal-button {
   background-color: transparent;
-  outline: none;
   border: none;
   box-shadow: none;
-  font-size: 1.2em;
-  padding: 1em;
   cursor: pointer;
+  font-size: 1.2em;
+  outline: none;
+  padding: 1em;
 }
 
 .modal-button:hover {

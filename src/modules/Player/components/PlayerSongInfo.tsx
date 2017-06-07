@@ -1,12 +1,12 @@
 import * as React from "react";
 import { connect } from "react-redux";
 import { AppState } from "../../../store";
-import { Song } from "../../../types";
-import * as PlaylistSelectors from "../../Playlist/selectors";
+import { CurrentSong } from "../../../types";
+import * as Selectors from "../selectors";
 import "./PlayerSongInfo.css";
 
 interface PlayerSongInfoProps {
-  song?: Song;
+  song?: CurrentSong;
 }
 
 const PlayerSongInfoComponent = ({ song }: PlayerSongInfoProps) =>
@@ -29,7 +29,7 @@ const PlayerSongInfoComponent = ({ song }: PlayerSongInfoProps) =>
 
 function mapStateToProps(state: AppState): PlayerSongInfoProps {
   return {
-    song: PlaylistSelectors.getCurrentSong(state)
+    song: Selectors.getCurrentPlayingSong(state)
   };
 }
 

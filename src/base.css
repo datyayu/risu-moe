@@ -1,7 +1,7 @@
 html, body {
-  margin: 0;
   box-sizing: border-box;
   font-family: "HelveticaNueu-Light", Helvetica, Arial, sans-serif;
+  margin: 0;
 }
 
 body {
@@ -14,14 +14,14 @@ body {
   background-position: center;
   background-attachment: fixed;
   box-sizing: border-box;
-  margin: 0;
-  height: 100vh;
-  padding: 1em .5em;
-  width: 100vw;
-  overflow: auto;
   display: flex;
   flex-direction: column;
+  height: 100vh;
   justify-content: space-between;
+  margin: 0;
+  overflow: auto;
+  padding: 1em .5em;
+  width: 100vw;
 }
 
 @media screen and (min-width: 480px) {
@@ -33,7 +33,7 @@ body {
 @media screen and (min-width: 780px) {
   .top-content {
     display: flex;
-    justify-content: space-between;
     flex-direction: row-reverse;
+    justify-content: space-between;
   }
 }
