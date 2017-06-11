@@ -4,7 +4,6 @@ A shared music player using your own music built using a lot of cool tech :)
 
 More info: SOME DAY... maybe.
 
----
 
 ## Running the client
 
@@ -19,7 +18,6 @@ Then run the development server using:
 ```sh
 $ yarn start
 ```
----
 
 ## Running the server
 
@@ -36,14 +34,12 @@ and then you can start the server using:
 $ yarn
 ```
 
----
 
 ## Cloud functions.
 
 SOON TM.
 
 
----
 
 ## LICENSE
 MIT, [you can read it the full license here](https://github.com/datyayu/risu-moe/blob/master/LICENSE.md).
