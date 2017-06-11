@@ -1,12 +1,20 @@
 import { database } from "firebase";
 import { User } from "../types";
 import { firebaseService } from "./firebase";
+import { Observable } from "rxjs/Observable";
+import * as Rx from "rxjs";
+import { EventTargetLike } from "rxjs/observable/FromEventObservable";
 
 class UsersService {
   database: database.Database;
+  usersSnapshot$: Observable<database.DataSnapshot>;
 
   constructor() {
     this.database = firebaseService.database();
+
+    const presenceRef = this.database.ref("presence") as EventTargetLike;
+
+    this.usersSnapshot$ = Rx.Observable.fromEvent(presenceRef, "value");
   }
 
   getLocalUser(): User | undefined {
@@ -42,21 +50,6 @@ class UsersService {
     localStorage.setItem("firebase-user-id", remoteId);
 
     return remoteId;
-  }
-
-  addConnectionListener(handler: Function): void {
-    this.database
-      .ref("presence")
-      .on("value", function(snapshot: database.DataSnapshot) {
-        var db = snapshot.val();
-        if (!db) return;
-
-        var users = Object.keys(db).map(function(key: string) {
-          return db[key];
-        });
-
-        handler(users);
-      });
   }
 
   setUser(user: User): void {

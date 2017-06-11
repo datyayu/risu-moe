@@ -1,7 +1,7 @@
 import { User, Message, Action } from "../../types";
 import * as actions from "./actions";
 
-export type ChatState = {
+export type State = {
   messages: Array<Message>;
   user?: User;
   onlineUsers: Array<User>;
@@ -9,7 +9,7 @@ export type ChatState = {
   minimized: boolean;
 };
 
-const initialState: ChatState = {
+const initialState: State = {
   messages: [],
   user: undefined,
   onlineUsers: [],
@@ -17,10 +17,7 @@ const initialState: ChatState = {
   minimized: false
 };
 
-export function chatReducer(
-  state: ChatState = initialState,
-  action: Action
-): ChatState {
+export function reducer(state: State = initialState, action: Action): State {
   switch (action.type) {
     case actions.UPDATE_INPUT:
       return {

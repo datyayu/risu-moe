@@ -4,6 +4,7 @@ export type Song = {
   duration: string;
   user: string;
   url: string;
+  ref?: string;
 };
 
 export type CurrentSong = Song & {

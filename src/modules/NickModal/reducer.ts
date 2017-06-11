@@ -1,7 +1,7 @@
 import { User, Action } from "../../types";
 import * as actions from "./actions";
 
-export type NickModalState = {
+export type State = {
   nickname: string;
   nickInput: string;
   color: string;
@@ -9,7 +9,7 @@ export type NickModalState = {
   active: boolean;
 };
 
-const initialState: NickModalState = {
+const initialState: State = {
   nickname: "anon",
   nickInput: "",
   color: "cccccc",
@@ -17,10 +17,7 @@ const initialState: NickModalState = {
   active: true
 };
 
-export function nickModalReducer(
-  state: NickModalState = initialState,
-  action: Action
-): NickModalState {
+export function reducer(state: State = initialState, action: Action): State {
   switch (action.type) {
     case actions.SUBMIT:
       return {

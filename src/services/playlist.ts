@@ -1,30 +1,18 @@
+import { EventTargetLike } from "rxjs/observable/FromEventObservable";
+import { Observable } from "rxjs/Observable";
 import { database as fbdb } from "firebase";
+import * as Rx from "rxjs";
 import { firebaseService } from "./firebase";
-import { Song } from "../types";
-
-type PlaylistChangeListenerCallback = (a: Array<Song>) => void;
 
 class PlaylistService {
   database: fbdb.Database;
+  playlistSnapshot$: Observable<fbdb.DataSnapshot>;
 
   constructor() {
     this.database = firebaseService.database();
-  }
 
-  addPlaylistChangeListener(handler: PlaylistChangeListenerCallback): void {
-    // Retrieve playlist
-    this.database
-      .ref("/playlist")
-      .on("value", function(snapshot: fbdb.DataSnapshot) {
-        var db = snapshot.val();
-        if (!db) return;
-
-        var songs = Object.keys(db).map(function(key: string) {
-          return db[key];
-        });
-
-        handler(songs);
-      });
+    const playlistRef = this.database.ref("/playlist") as EventTargetLike;
+    this.playlistSnapshot$ = Rx.Observable.fromEvent(playlistRef, "value");
   }
 }
 

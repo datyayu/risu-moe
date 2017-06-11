@@ -1,6 +1,6 @@
 import { store } from "../../store";
 import { storage } from "firebase";
-import { usersService, fileUploadService } from "../../services";
+import { usersService, cloudFilesService } from "../../services";
 import * as actions from "./actions";
 
 export function init() {
@@ -64,7 +64,7 @@ export function init() {
         userId: user.id,
         userName: user.name
       };
-      const uploadTask = fileUploadService.uploadFile(file, metadata);
+      const uploadTask = cloudFilesService.uploadFile(file, metadata);
 
       uploading = true;
       uploadTask.on("state_changed", handleUpdate, closeOverlay, closeOverlay);

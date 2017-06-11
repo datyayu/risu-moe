@@ -1,0 +1,11 @@
+{
+  "name": "risu.moe-functions",
+  "version": "1.0.0",
+  "main": "index.js",
+  "author": "Arturo Coronel <aoitsu3@gmail.com> (https://datyayu.xyz)",
+  "license": "MIT",
+  "dependencies": {
+    "firebase-admin": "^4.2.1",
+    "firebase-functions": "^0.5.7"
+  }
+}
