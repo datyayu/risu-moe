@@ -3,48 +3,73 @@ import { combineEpics, createEpicMiddleware } from "redux-observable";
 import * as Chat from "./modules/Chat";
 import * as Playlist from "./modules/Playlist";
 import * as NickModal from "./modules/NickModal";
-import { PlayerState, playerReducer } from "./modules/Player";
-import {
-  UploadFileOverlayState,
-  uploadFileOverlayReducer
-} from "./modules/UploadFileOverlay";
-import * as SharedActions from "./shared-actions";
+import * as UploadFileOverlay from "./modules/UploadFileOverlay";
+import * as Player from "./modules/Player";
+import { actions } from "./shared";
 
-// Store State type
-export interface AppState {
-  chat: Chat.State;
-  nickModal: NickModal.State;
-  player: PlayerState;
-  playlist: Playlist.State;
-  uploadFileOverlay: UploadFileOverlayState;
-}
+/*******************
+ *      UTILS      *
+ *******************/
 
 const windowGlobal = <any>window;
 
-// Setup epics
+/*******************
+ *      STATE      *
+ *******************/
+
+export interface AppState {
+  chat: Chat.State;
+  nickModal: NickModal.State;
+  player: Player.State;
+  playlist: Playlist.State;
+  uploadFileOverlay: UploadFileOverlay.State;
+}
+
+/*******************
+ *      EPICS      *
+ *******************/
+
 const rootEpic = combineEpics(
   ...Chat.epics,
   ...NickModal.epics,
-  ...Playlist.epics
+  ...Player.epics,
+  ...Playlist.epics,
+  ...UploadFileOverlay.epics
 );
 const epicMiddleware = createEpicMiddleware(rootEpic);
 
-// Setup reducers
+/*******************
+ *  MAIN REDUCER   *
+ *******************/
+
 const reducer = combineReducers({
   chat: Chat.reducer,
   nickModal: NickModal.reducer,
-  player: playerReducer,
+  player: Player.reducer,
   playlist: Playlist.reducer,
-  uploadFileOverlay: uploadFileOverlayReducer
+  uploadFileOverlay: UploadFileOverlay.reducer
 });
 
-// Setup middleware
+/*******************
+ *    ENHANCERS    *
+ *******************/
+
 const composeEnhancers =
   (windowGlobal && windowGlobal.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__) ||
   compose;
 
-/* RESERVED FOR FUTURE ENHANCERS */
-const storeEnhancers = composeEnhancers(applyMiddleware(epicMiddleware));
+const storeEnhancers = composeEnhancers(
+  applyMiddleware(
+    epicMiddleware
+    /* RESERVED FOR FUTURE MIDDLEWARE */
+  )
+);
+
+/*******************
+ *      STORE      *
+ *******************/
 
 export const store = createStore(reducer, storeEnhancers);
-store.dispatch(SharedActions.init());
+
+// Dispatch init action.
+store.dispatch(actions.init());

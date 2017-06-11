@@ -1,19 +1,25 @@
 import { EventTargetLike } from "rxjs/observable/FromEventObservable";
 import { Observable } from "rxjs/Observable";
-import { database as fbdb } from "firebase";
-import * as Rx from "rxjs";
-import { firebaseService } from "./firebase";
+import { Database, DataSnapshot } from "../types";
+import { firebaseService } from "./_firebase";
+
+/*******************
+ *     SERVICE     *
+ *******************/
 
 class PlaylistService {
-  database: fbdb.Database;
-  playlistSnapshot$: Observable<fbdb.DataSnapshot>;
+  database: Database;
+  playlistSnapshot$: Observable<DataSnapshot>;
 
   constructor() {
     this.database = firebaseService.database();
 
     const playlistRef = this.database.ref("/playlist") as EventTargetLike;
-    this.playlistSnapshot$ = Rx.Observable.fromEvent(playlistRef, "value");
+
+    // Convert the playlist ref to an observable.
+    this.playlistSnapshot$ = Observable.fromEvent(playlistRef, "value");
   }
 }
 
+// Export it as a singleton.
 export const playlistService = new PlaylistService();

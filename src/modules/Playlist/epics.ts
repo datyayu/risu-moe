@@ -1,16 +1,25 @@
 import { Observable } from "rxjs/Observable";
-import { Store } from "redux";
-import { ActionsObservable } from "redux-observable";
-import { database as fbdb } from "firebase";
-import { AppState } from "../../store";
-import { Action, Song } from "../../types";
+import {
+  Action,
+  ActionObservable,
+  AppStore,
+  Song,
+  DataSnapshot
+} from "../../types";
 import { playlistService, cloudFilesService } from "../../services";
 import * as Selectors from "./selectors";
 import * as actions from "./actions";
-import * as SharedActions from "../../shared-actions";
+import { actions as SharedActions } from "../../shared";
 
-const setPlaylist$ = (action$: ActionsObservable<Action>): Observable<Action> =>
-  playlistService.playlistSnapshot$.map(function(snapshot: fbdb.DataSnapshot) {
+/*******************
+ *      EPICS      *
+ *******************/
+
+/**
+ * When remote playlist is updated, update also the local one.
+ */
+const setPlaylist$ = (action$: ActionObservable): Observable<Action> =>
+  playlistService.playlistSnapshot$.map(function(snapshot: DataSnapshot) {
     var db = snapshot.val();
     if (!db) return SharedActions.nullAction();
 
@@ -21,33 +30,49 @@ const setPlaylist$ = (action$: ActionsObservable<Action>): Observable<Action> =>
     return actions.setPlaylist(songs);
   });
 
+/**
+ * When playlist is updated:
+ * - Fetch the first song if required.
+ * - If the first song has already been fetched but the
+ *   second hasn't, then fetch the second one.
+ * - If both were already fetched, then do nothing.
+ */
 const loadSongs$ = (
-  action$: ActionsObservable<Action>,
-  store: Store<AppState>
+  action$: ActionObservable,
+  store: AppStore
 ): Observable<Action> =>
   action$.ofType(actions.SET_PLAYLIST).map(function(action: Action) {
     const songs = action.payload as Array<Song>;
+    const state = store.getState();
 
+    // Try to fetch the first one.
     const firstSong = songs[0];
-    const secondSong = songs[1];
+    const firstSongWasFetched = Selectors.isIdInBufferList(state, firstSong.id);
 
-    const state = store.getState() as AppState;
-    const nextSong = Selectors.getNextSong(state);
-    const firstSongWasntNextOnPlaylist =
-      !nextSong || firstSong.id !== nextSong.id;
-
-    if (firstSong && firstSongWasntNextOnPlaylist) {
+    if (!firstSongWasFetched) {
       return actions.fetchSong(firstSong);
     }
 
-    if (secondSong) {
+    // Try to fetch the second one.
+    const secondSong = songs[1];
+    const secondSongWasFetched = Selectors.isIdInBufferList(
+      state,
+      secondSong.id
+    );
+
+    if (!secondSongWasFetched) {
       return actions.fetchSong(secondSong);
     }
 
+    // Do nothing.
     return SharedActions.nullAction();
   });
 
-const fetchSong$ = (action$: ActionsObservable<Action>): Observable<Action> =>
+/**
+ * When a playlist/FETCH_SONG action is dispatched,
+ * fetch the song and save the buffer in store.
+ */
+const fetchSong$ = (action$: ActionObservable): Observable<Action> =>
   action$.ofType(actions.FETCH_SONG).switchMap(function(action: Action) {
     const song = action.payload as Song;
     const request = cloudFilesService.fetchFile(song.url);
@@ -55,39 +80,32 @@ const fetchSong$ = (action$: ActionsObservable<Action>): Observable<Action> =>
     return Observable.from(request).switchMap(buffer =>
       Observable.from([
         actions.setSongBuffer(song.id, buffer),
-        actions.currentSongFetched()
+        actions.songFetched()
       ])
     );
   });
 
+/**
+ * When the a playlist/SONG_FETCHED action is
+ * dispatched, check if the second song in playlist was
+ * already fetched. If it hasn't, then fetch it.
+ */
 const fetchSecondSong$ = (
-  action$: ActionsObservable<Action>,
-  store: Store<AppState>
+  action$: ActionObservable,
+  store: AppStore
 ): Observable<Action> =>
-  action$
-    .ofType(actions.CURRENT_SONG_FETCHED)
-    .map(function(action: Action) {
-      const state = store.getState();
-      const nextSong = Selectors.getNextSong(state);
-      const nextSongWasFetched =
-        nextSong &&
-        Selectors.getBufferIds(state).some(id => id === nextSong.id);
+  action$.ofType(actions.SONG_FETCHED).map(function(action: Action) {
+    const state = store.getState();
+    const nextSong = Selectors.getNextSong(state);
+    const nextSongWasFetched =
+      nextSong && Selectors.getBufferIds(state).some(id => id === nextSong.id);
 
-      if (nextSongWasFetched) {
-        return SharedActions.nullAction();
-      }
+    if (!nextSong || nextSongWasFetched) {
+      return SharedActions.nullAction();
+    }
 
-      return action;
-    })
-    .map(function(action: Action) {
-      const state = store.getState();
-      const nextSong = Selectors.getNextSong(state);
+    return actions.fetchSong(nextSong);
+  });
 
-      if (action.type !== actions.CURRENT_SONG_FETCHED || !nextSong) {
-        return SharedActions.nullAction();
-      }
-
-      return actions.fetchSong(nextSong);
-    });
-
+// Export all epics.
 export const epics = [setPlaylist$, loadSongs$, fetchSong$, fetchSecondSong$];

@@ -1,9 +1,10 @@
 import * as React from "react";
+import { parseUserId } from "../../../utils";
 import "./ChatMessageContent.css";
 
-function shortenUserId(userId: string): string {
-  return userId.slice(-5);
-}
+/*******************
+ *      PROPS      *
+ *******************/
 
 interface ChatMessageProps {
   color: string;
@@ -12,6 +13,10 @@ interface ChatMessageProps {
   messageType: "user" | "system";
   userId: string;
 }
+
+/*******************
+ *    COMPONENT    *
+ *******************/
 
 export const ChatMessageContent = ({
   color,
@@ -27,7 +32,7 @@ export const ChatMessageContent = ({
   return (
     <div className="chat-message-content">
       <span className="chat-message-user" style={{ color: `#${color}` }}>
-        {username && `${username}#${shortenUserId(userId)}`}
+        {username && `${username}#${parseUserId(userId)}`}
       </span>
       {" "}
       <span className={textClass}>

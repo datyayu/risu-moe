@@ -1,19 +1,25 @@
 import { Song, Action } from "../../types";
 
-export const TOGGLE_PLAYLIST = "playlist/TOGGLE_PLAYLIST";
-export function togglePlaylist(): Action {
-  return { type: TOGGLE_PLAYLIST };
-}
-
-export const SET_PLAYLIST = "playlist/SET_PLAYLIST";
-export function setPlaylist(songs: Array<Song>): Action {
-  return {
-    type: SET_PLAYLIST,
-    payload: songs
-  };
-}
+/*******************
+ *  ACTION TYPES   *
+ *******************/
 
 export const FETCH_SONG = "playlist/FETCH_SONG";
+export const FETCH_SECOND_SONG = "playlist/FETCH_SECOND_SONG";
+export const SET_PLAYLIST = "playlist/SET_PLAYLIST";
+export const SET_SONG_BUFFER = "playlist/SET_SONG_BUFFER";
+export const SONG_FETCHED = "playlist/SONG_FETCHED";
+export const TOGGLE_PLAYLIST = "playlist/TOGGLE_PLAYLIST";
+
+/*******************
+ * ACTION CREATORS *
+ *******************/
+
+/**
+ * Fetch a song's arraybuffer.
+ *
+ * @param song Song to fetch.
+ */
 export function fetchSong(song: Song): Action {
   return {
     type: FETCH_SONG,
@@ -21,12 +27,36 @@ export function fetchSong(song: Song): Action {
   };
 }
 
-export const CURRENT_SONG_FETCHED = "playlist/CURRENT_SONG_FETCHED";
-export function currentSongFetched(): Action {
-  return { type: CURRENT_SONG_FETCHED };
+/**
+ * Prefetch the next song.
+ *
+ * @param song Song to fetch.
+ */
+export function fetchSecondSong(song: Song): Action {
+  return {
+    type: FETCH_SECOND_SONG,
+    payload: song
+  };
 }
 
-export const SET_SONG_BUFFER = "playlist/SET_SONG_BUFFER";
+/**
+ * Set playlist songs.
+ *
+ * @param songs Songs in playlist.
+ */
+export function setPlaylist(songs: Array<Song>): Action {
+  return {
+    type: SET_PLAYLIST,
+    payload: songs
+  };
+}
+
+/**
+ * Store the song arraybuffer in the state.
+ *
+ * @param id Song id
+ * @param buffer Buffer to store.
+ */
 export function setSongBuffer(id: string, buffer: ArrayBuffer): Action {
   return {
     type: SET_SONG_BUFFER,
@@ -34,10 +64,17 @@ export function setSongBuffer(id: string, buffer: ArrayBuffer): Action {
   };
 }
 
-export const FETCH_SECOND_SONG = "playlist/FETCH_SECOND_SONG";
-export function fetchSecondSong(song: Song): Action {
-  return {
-    type: FETCH_SECOND_SONG,
-    payload: song
-  };
+/**
+ * Notify when the current song buffer has been
+ * fetched successfully
+ */
+export function songFetched(): Action {
+  return { type: SONG_FETCHED };
+}
+
+/**
+ * Toggle the playlist visibility.
+ */
+export function togglePlaylist(): Action {
+  return { type: TOGGLE_PLAYLIST };
 }

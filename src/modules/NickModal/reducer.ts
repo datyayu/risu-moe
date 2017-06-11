@@ -1,6 +1,10 @@
 import { User, Action } from "../../types";
 import * as actions from "./actions";
 
+/*******************
+ *      STATE      *
+ *******************/
+
 export type State = {
   nickname: string;
   nickInput: string;
@@ -17,8 +21,13 @@ const initialState: State = {
   active: true
 };
 
+/*******************
+ *     REDUCER     *
+ *******************/
+
 export function reducer(state: State = initialState, action: Action): State {
   switch (action.type) {
+    // Update user on submit.
     case actions.SUBMIT:
       return {
         ...state,
@@ -27,6 +36,7 @@ export function reducer(state: State = initialState, action: Action): State {
         active: false
       };
 
+    // Clear inputs on cancel.
     case actions.CANCEL:
       return {
         ...state,
@@ -35,24 +45,28 @@ export function reducer(state: State = initialState, action: Action): State {
         active: false
       };
 
+    // Update the nick input value.
     case actions.UPDATE_NICK_INPUT:
       return {
         ...state,
         nickInput: action.payload.slice(0, 10)
       };
 
+    // Update the color input value.
     case actions.UPDATE_COLOR_INPUT:
       return {
         ...state,
         colorInput: action.payload.slice(0, 6)
       };
 
+    // Toggle modal visibility.
     case actions.TOGGLE_MODAL:
       return {
         ...state,
         active: !state.active
       };
 
+    // Load a user from memory into state.
     case actions.SET_USER:
       const user: User = action.payload;
 
@@ -64,6 +78,7 @@ export function reducer(state: State = initialState, action: Action): State {
         active: false
       };
 
+    // Default.
     default:
       return state;
   }

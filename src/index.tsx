@@ -1,12 +1,14 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import { Provider } from "react-redux";
-
+import { store } from "./store";
+import { App } from "./App";
 import registerServiceWorker from "./registerServiceWorker";
 import "./base.css";
 
-import { store } from "./store";
-import { App } from "./App";
+/*******************
+ *    BASE APP     *
+ *******************/
 
 const ConnectedApp = (
   <Provider store={store}>
@@ -14,7 +16,15 @@ const ConnectedApp = (
   </Provider>
 );
 
-const rootElement = document.getElementById("root");
+/*******************
+ *     RENDER      *
+ *******************/
 
+const rootElement = document.getElementById("root");
 ReactDOM.render(ConnectedApp, rootElement);
+
+/*******************
+ * SERVICE WORKER  *
+ *******************/
+
 registerServiceWorker();

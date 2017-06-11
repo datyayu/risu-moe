@@ -1,29 +1,36 @@
 import { Action } from "../../types";
 import * as actions from "./actions";
 
-export type UploadFileOverlayState = {
+/*******************
+ *      STATE      *
+ *******************/
+
+export type State = {
   isActive: boolean;
   isUploading: boolean;
   progress: number;
 };
 
-const initialState: UploadFileOverlayState = {
+const initialState: State = {
   isActive: false,
   isUploading: false,
   progress: 0
 };
 
-export function uploadFileOverlayReducer(
-  state: UploadFileOverlayState = initialState,
-  action: Action
-): UploadFileOverlayState {
+/*******************
+ *     REDUCER     *
+ *******************/
+
+export function reducer(state: State = initialState, action: Action): State {
   switch (action.type) {
+    // Show upload overlay.
     case actions.SHOW_OVERLAY:
       return {
         ...state,
         isActive: true
       };
 
+    // Hide upload overlay.
     case actions.HIDE_OVERLAY:
       return {
         progress: 0,
@@ -31,6 +38,7 @@ export function uploadFileOverlayReducer(
         isUploading: false
       };
 
+    // Update the current upload progress.
     case actions.UPDATE_PROGRESS:
       return {
         isActive: true,
@@ -38,6 +46,7 @@ export function uploadFileOverlayReducer(
         progress: action.payload
       };
 
+    // Default.
     default:
       return state;
   }

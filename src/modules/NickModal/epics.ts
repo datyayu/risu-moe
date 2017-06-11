@@ -1,30 +1,43 @@
-import { ActionsObservable } from "redux-observable";
 import { Observable } from "rxjs/Observable";
-import { Action, User } from "../../types";
+import { Action, ActionObservable, AppStore, User } from "../../types";
 import { usersService } from "../../services";
 import * as actions from "./actions";
-import * as SharedActions from "../../shared-actions";
+import { actions as SharedActions } from "../../shared";
 import * as Selectors from "./selectors";
-import { Store } from "redux";
-import { AppState } from "../../store";
 
-const connectUser$ = (action$: ActionsObservable<Action>): Observable<Action> =>
+/*******************
+ *      EPICS      *
+ *******************/
+
+/**
+ * When the application is initialized, log in the user.
+ */
+const connectUser$ = (action$: ActionObservable): Observable<Action> =>
   action$.ofType(SharedActions.INIT).map(function() {
     const user = usersService.connect();
-    if (!user) return SharedActions.nullAction();
+
+    if (!user) {
+      return SharedActions.nullAction();
+    }
 
     return actions.setUser(user);
   });
 
+/**
+ * When the user submit's the modal info, update the local
+ * and remote user references.
+ */
 const postUser$ = (
-  action$: ActionsObservable<Action>,
-  store: Store<AppState>
+  action$: ActionObservable,
+  store: AppStore
 ): Observable<Action> =>
   action$.ofType(actions.SUBMIT).map(function() {
     const userId = usersService.getUserId();
     const state = store.getState();
 
-    if (!userId) return actions.cancel();
+    if (!userId) {
+      return actions.cancel();
+    }
 
     const user: User = {
       id: userId,
@@ -38,4 +51,5 @@ const postUser$ = (
     return SharedActions.nullAction();
   });
 
+// Export all epics.
 export const epics = [connectUser$, postUser$];

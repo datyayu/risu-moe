@@ -1,8 +1,16 @@
 import * as React from "react";
 
+/*******************
+ *      PROPS      *
+ *******************/
+
 interface UploadFileOverlayProgressProps {
   progress: number;
 }
+
+/*******************
+ *    COMPONENT    *
+ *******************/
 
 export const UploadFileOverlayProgress = ({
   progress

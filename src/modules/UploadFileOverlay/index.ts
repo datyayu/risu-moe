@@ -1,7 +1,6 @@
-import { init as initSideEffects } from "./side-effects";
-
-export * from "./reducer";
 export * from "./actions";
-export { UploadFileOverlay as UploadFileOverlayComponent } from "./components";
+export * from "./epics";
+export * from "./reducer";
+export * from "./selectors";
 
-initSideEffects();
+export { UploadFileOverlay as UploadFileOverlayComponent } from "./components";

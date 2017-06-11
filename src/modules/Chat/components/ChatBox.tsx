@@ -1,18 +1,28 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { Message } from "../../../types";
-import { AppState } from "../../../store";
+import { AppState, Message } from "../../../types";
 import * as Selectors from "../selectors";
 import { ChatMessage } from "./ChatMessage";
 import "./ChatBox.css";
+
+/*******************
+ *      PROPS      *
+ *******************/
 
 interface ChatBoxProps {
   messages: Array<Message>;
 }
 
-class ChatBoxComponent extends React.Component<ChatBoxProps, {}> {
-  props: ChatBoxProps;
+/*******************
+ *    COMPONENT    *
+ *******************/
 
+class ChatBoxComponent extends React.Component<ChatBoxProps, {}> {
+  /**
+   * On update, scroll down. This ensures that when a
+   * new message arrives, it's show as soon as it's
+   * added to the chatbox.
+   */
   componentDidUpdate() {
     const element = document.getElementById("js-chat-box");
     if (!element) return;
@@ -20,6 +30,9 @@ class ChatBoxComponent extends React.Component<ChatBoxProps, {}> {
     element.scrollTop = element.scrollHeight;
   }
 
+  /**
+   * Component render.
+   */
   render() {
     return (
       <div className="chat-box" id="js-chat-box">
@@ -31,9 +44,19 @@ class ChatBoxComponent extends React.Component<ChatBoxProps, {}> {
   }
 }
 
+/*******************
+ *    MAPPINGS     *
+ *******************/
+
 function mapStateToProps(state: AppState): ChatBoxProps {
-  return { messages: Selectors.getMessages(state) };
+  const messages = Selectors.getMessages(state);
+
+  return { messages };
 }
+
+/********************
+ * CONNECTED EXPORT *
+ ********************/
 
 export const ChatBox: React.ComponentClass<{}> = connect(mapStateToProps)(
   ChatBoxComponent

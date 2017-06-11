@@ -1,21 +1,20 @@
 import * as React from "react";
 import { Message } from "../../../types";
+import { parseTimestamp } from "../../../utils";
 import { ChatMessageContent } from "./ChatMessageContent";
 import "./ChatMessage.css";
 
-function parseTimestamp(timestamp: number): string {
-  const date = new Date(timestamp);
-  // TODO: Padding
-  const hour = date.getHours().toString();
-  const minutes = date.getMinutes().toString();
-  const seconds = date.getSeconds().toString();
-
-  return `[${hour}:${minutes}:${seconds}]`;
-}
+/*******************
+ *      PROPS      *
+ *******************/
 
 interface ChatMessageProps {
   message: Message;
 }
+
+/*******************
+ *    COMPONENT    *
+ *******************/
 
 export const ChatMessage = ({ message }: ChatMessageProps) => {
   const time: string = parseTimestamp(message.time);

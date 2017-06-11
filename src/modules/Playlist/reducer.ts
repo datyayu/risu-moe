@@ -1,10 +1,18 @@
 import { Song, Action } from "../../types";
 import * as actions from "./actions";
 
-export type SongBuffer = {
+/*******************
+ *      UTILS      *
+ *******************/
+
+type SongBuffer = {
   id: string;
   buffer: ArrayBuffer;
 };
+
+/*******************
+ *      STATE      *
+ *******************/
 
 export type State = {
   songs: Array<Song>;
@@ -20,8 +28,13 @@ const initialState: State = {
   buffers: {}
 };
 
+/*******************
+ *     REDUCER     *
+ *******************/
+
 export function reducer(state: State = initialState, action: Action): State {
   switch (action.type) {
+    // Store a song buffer.
     case actions.SET_SONG_BUFFER:
       const songBuffer = action.payload as SongBuffer;
       const id = songBuffer.id;
@@ -34,6 +47,8 @@ export function reducer(state: State = initialState, action: Action): State {
         }
       };
 
+    // Update the song list and remove buffers
+    // that aren't in the playlist anymore.
     case actions.SET_PLAYLIST:
       const newSongs = action.payload as Array<Song>;
       const filterBufferList = () => {
@@ -55,12 +70,14 @@ export function reducer(state: State = initialState, action: Action): State {
         buffers: filterBufferList()
       };
 
+    // Toggle playlist visibility.
     case actions.TOGGLE_PLAYLIST:
       return {
         ...state,
         minimized: !state.minimized
       };
 
+    // Default.
     default:
       return state;
   }

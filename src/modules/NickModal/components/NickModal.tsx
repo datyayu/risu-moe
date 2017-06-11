@@ -1,15 +1,19 @@
 import * as React from "react";
 import { connect } from "react-redux";
-import { AppState } from "../../../store";
+import { AppState } from "../../../types";
 import * as Selectors from "../selectors";
 import * as actions from "../actions";
 import { NickModalInput } from "./NickModalInput";
+
+/*******************
+ *      PROPS      *
+ *******************/
 
 interface NickModalState {
   nickInput: string;
   colorInput: string;
   isActive: boolean;
-  inputsAreValid: boolean;
+  areInputsValid: boolean;
 }
 
 type NickModalDispatchers = {
@@ -21,61 +25,67 @@ type NickModalDispatchers = {
 
 type NickModalProps = NickModalState & NickModalDispatchers;
 
-class NickModalComponent extends React.Component<NickModalProps, {}> {
-  render() {
-    if (!this.props.isActive) return null;
+/*******************
+ *    COMPONENT    *
+ *******************/
 
-    const confirmButtonClasses = this.props.inputsAreValid
-      ? "modal-button modal-button--confirm"
-      : "modal-button modal-button--confirm modal-button--disabled";
+function NickModalComponent(props: NickModalProps) {
+  if (!props.isActive) return <div />;
 
-    return (
-      <div className="modal-overlay">
-        <div className="modal-box">
-          <NickModalInput
-            label="Choose your nickname"
-            placeholder="Type your nickname here..."
-            value={this.props.nickInput}
-            onChange={this.props.onNickChange}
-            onSubmit={this.props.onSubmit}
-          />
-          <NickModalInput
-            label="Nickname color (HEX)"
-            placeholder="Use FFFFFF format"
-            value={this.props.colorInput}
-            borderColor={
-              this.props.inputsAreValid ? this.props.colorInput : "undefined"
-            }
-            onChange={this.props.onColorChange}
-            onSubmit={this.props.onSubmit}
-          />
+  const confirmButtonClasses = props.areInputsValid
+    ? "modal-button modal-button--confirm"
+    : "modal-button modal-button--confirm modal-button--disabled";
 
-          <div className="modal-buttons">
-            <button
-              className={confirmButtonClasses}
-              onClick={this.props.onSubmit}
-            >
-              Accept
-            </button>
-            <button
-              className="modal-button modal-button--neutral"
-              onClick={this.props.onCancel}
-            >
-              No, thanks
-            </button>
-          </div>
+  return (
+    <div className="modal-overlay">
+      <div className="modal-box">
+        <NickModalInput
+          label="Choose your nickname"
+          placeholder="Type your nickname here..."
+          value={props.nickInput}
+          onChange={props.onNickChange}
+          onSubmit={props.onSubmit}
+        />
+        <NickModalInput
+          label="Nickname color (HEX)"
+          placeholder="Use FFFFFF format"
+          value={props.colorInput}
+          borderColor={props.areInputsValid ? props.colorInput : "undefined"}
+          onChange={props.onColorChange}
+          onSubmit={props.onSubmit}
+        />
+
+        <div className="modal-buttons">
+          <button className={confirmButtonClasses} onClick={props.onSubmit}>
+            Accept
+          </button>
+          <button
+            className="modal-button modal-button--neutral"
+            onClick={props.onCancel}
+          >
+            No, thanks
+          </button>
         </div>
       </div>
-    );
-  }
+    </div>
+  );
 }
 
+/*******************
+ *    MAPPINGS     *
+ *******************/
+
 function mapStateToProps(state: AppState): NickModalState {
+  const colorInput = Selectors.getColorInput(state);
+  const nickInput = Selectors.getNickInput(state);
+  const isActive = Selectors.isModalActive(state);
+  const areInputsValid = Selectors.areInputsValid(state);
+
   return {
-    colorInput: Selectors.getColorInput(state),
-    nickInput: Selectors.getNickInput(state),
-    isActive: Selectors.isModalActive(state),
-    inputsAreValid: Selectors.areInputsValid(state)
+    colorInput,
+    nickInput,
+    isActive,
+    areInputsValid
   };
 }
 
@@ -85,6 +95,10 @@ const mapDispatchToProps: NickModalDispatchers = {
   onSubmit: actions.submit,
   onCancel: actions.cancel
 };
+
+/********************
+ * CONNECTED EXPORT *
+ ********************/
 
 export const NickModal: React.ComponentClass<{}> = connect(
   mapStateToProps,

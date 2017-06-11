@@ -10,3 +10,11 @@ export type Song = {
 export type CurrentSong = Song & {
   currentTime: string;
 };
+
+export type SongMetadata = {
+  id?: string;
+  name: string;
+  duration: string;
+  userId: string;
+  userName: string;
+};

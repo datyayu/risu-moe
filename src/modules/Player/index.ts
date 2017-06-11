@@ -1,7 +1,6 @@
-import { init as initSideEffects } from "./side-effects";
-
+export * from "./actions";
+export * from "./epics";
 export * from "./reducer";
-// export * from "./actions";
-export { Player as PlayerComponent } from "./components";
+export * from "./selectors";
 
-initSideEffects();
+export { Player as PlayerComponent } from "./components";

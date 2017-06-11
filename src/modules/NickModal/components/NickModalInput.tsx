@@ -1,6 +1,10 @@
 import * as React from "react";
 import { ENTER } from "../../../config/key-codes";
 
+/*******************
+ *      PROPS      *
+ *******************/
+
 interface NickModalInputProps {
   label: string;
   value: string;
@@ -10,6 +14,10 @@ interface NickModalInputProps {
   onChange?: (a: string) => void;
 }
 
+/*******************
+ *   COMPONENTS    *
+ *******************/
+
 export class NickModalInput extends React.Component<NickModalInputProps, {}> {
   constructor(props: NickModalInputProps) {
     super(props);
@@ -18,6 +26,12 @@ export class NickModalInput extends React.Component<NickModalInputProps, {}> {
     this.handleKeyDown = this.handleKeyDown.bind(this);
   }
 
+  /**
+   * On input change, call props.onChange (if defined) with
+   * the new input value.
+   *
+   * @param event Change event emitted.
+   */
   handleChange(event: React.ChangeEvent<HTMLInputElement>) {
     if (!this.props.onChange) return;
 
@@ -25,6 +39,12 @@ export class NickModalInput extends React.Component<NickModalInputProps, {}> {
     this.props.onChange(value);
   }
 
+  /**
+   * On keydown, if the ENTER key was pressed, call the
+   * props.onSubmit (if defined).
+   *
+   * @param event Keyboard event emitted.
+   */
   handleKeyDown(event: React.KeyboardEvent<HTMLInputElement>) {
     if (!this.props.onSubmit) return;
 
@@ -33,6 +53,9 @@ export class NickModalInput extends React.Component<NickModalInputProps, {}> {
     }
   }
 
+  /**
+   * Component render function.
+   */
   render() {
     const customBorder = `3px solid #${this.props.value}`;
 
