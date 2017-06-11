@@ -8,7 +8,7 @@ import { playerService } from "./services/player";
 import { webSocketsService } from "./services/websocket";
 
 // Application stuff d
-const port = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 // App instances
 const app = express();
