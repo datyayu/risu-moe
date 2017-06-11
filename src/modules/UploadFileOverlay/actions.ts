@@ -4,6 +4,8 @@ import { Action, SongMetadata } from "../../types";
  *  ACTION TYPES   *
  *******************/
 
+export const ERROR_UPDATING_PROGRESS =
+  "uploadFileOverlay/ERROR_UPDATING_PROGRESS";
 export const HIDE_OVERLAY = "uploadFileOverlay/HIDE_OVERLAY";
 export const SHOW_OVERLAY = "uploadFileOverlay/SHOW_OVERLAY";
 export const START_UPLOADING = "uploadFileOverlay/START_UPLOADING";
@@ -13,6 +15,13 @@ export const UPLOADING_STARTED = "uploadFileOverlay/UPLOADING_STARTED";
 /*******************
  * ACTION CREATORS *
  *******************/
+
+/**
+ * Progress property was missing on a upload progress update.
+ */
+export function errorUpdatingProgress(): Action {
+  return { type: ERROR_UPDATING_PROGRESS };
+}
 
 /**
  * Hide upload overlay.

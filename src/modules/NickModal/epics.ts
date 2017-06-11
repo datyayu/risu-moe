@@ -17,7 +17,7 @@ const connectUser$ = (action$: ActionObservable): Observable<Action> =>
     const user = usersService.connect();
 
     if (!user) {
-      return SharedActions.nullAction();
+      return actions.errorGettingUser();
     }
 
     return actions.setUser(user);
@@ -48,7 +48,7 @@ const postUser$ = (
     // Update firebase ref.
     usersService.setUser(user);
 
-    return SharedActions.nullAction();
+    return actions.userUpdated();
   });
 
 // Export all epics.

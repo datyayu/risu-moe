@@ -8,6 +8,7 @@ import * as Selectors from "./selectors";
  *******************/
 
 export const CANCEL = "nickModal/CANCEL";
+export const ERROR_GETTING_USER = "nickModal/ERROR_GETTING_USER";
 export const SET_USER = "nickModal/SET_USER";
 export const SUBMIT = "nickModal/SUBMIT";
 export const TOGGLE_MODAL = "nickModal/TOGGLE_MODAL";
@@ -24,6 +25,13 @@ export const USER_UPDATED = "nickModal/USER_UPDATED";
  */
 export function cancel(): Action {
   return { type: CANCEL };
+}
+
+/**
+ * Something failed when trying to get the user.
+ */
+export function errorGettingUser(): Action {
+  return { type: ERROR_GETTING_USER };
 }
 
 /**

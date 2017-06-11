@@ -20,9 +20,7 @@ export function init(): Action {
 
 /**
  * Null action.
- * Used as a temporary workaround to cancel epics.
- *
- * @todo Replace it for module-local error-handling actions.
+ * Used as a temporary workaround on development to cancel epics.
  */
 export function nullAction(): Action {
   return { type: NULL };

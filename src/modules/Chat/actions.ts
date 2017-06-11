@@ -5,6 +5,9 @@ import { User, Message, Action } from "../../types";
  *******************/
 
 export const ADD_MESSAGE = "chat/ADD_MESSAGE";
+export const ERROR_ADDING_MESSAGE = "chat/ERROR_ADDING_MESSAGE";
+export const ERROR_UPDATING_ONLINE_USERS = "chat/ERROR_UPDATING_ONLINE_USERS";
+export const MESSAGE_POSTED = "chat/MESSAGE_POSTED";
 export const POST_MESSAGE = "chat/POST_MESSAGE";
 export const TOGGLE_CHAT = "chat/TOGGLE_CHAT";
 export const UPDATE_INPUT = "chat/UPDATE_INPUT";
@@ -24,6 +27,37 @@ export function addMessage(message: Message): Action {
     type: ADD_MESSAGE,
     payload: message
   };
+}
+
+/**
+ * An error occurred while adding a message to the chat.
+ *
+ * @param error Error message.
+ */
+export function errorAddingMesage(error: string): Action {
+  return {
+    type: ERROR_ADDING_MESSAGE,
+    payload: error
+  };
+}
+
+/**
+ * An error occurred while updating online users list.
+ *
+ * @param error Error message.
+ */
+export function errorUpdatingOnlineUsers(error: string): Action {
+  return {
+    type: ERROR_ADDING_MESSAGE,
+    payload: error
+  };
+}
+
+/**
+ * A message was posted to the database.
+ */
+export function messagePosted(): Action {
+  return { type: MESSAGE_POSTED };
 }
 
 /**

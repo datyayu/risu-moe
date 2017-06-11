@@ -1,7 +1,12 @@
 import { Observable } from "rxjs/Observable";
-import { Action, Message, ActionObservable, DataSnapshot } from "../../types";
+import {
+  Action,
+  Message,
+  ActionObservable,
+  DataSnapshot,
+  User
+} from "../../types";
 import { messagesService, usersService } from "../../services";
-import { actions as SharedActions } from "../../shared";
 import * as actions from "./actions";
 
 /*******************
@@ -14,7 +19,10 @@ import * as actions from "./actions";
 const addNewMessages$ = (action$: ActionObservable): Observable<Action> =>
   messagesService.messagesSnapshot$.map(function(snapshot: DataSnapshot) {
     const message: Message = snapshot.val();
-    if (!message) return SharedActions.nullAction();
+
+    if (!message) {
+      return actions.errorAddingMesage("No message was found in snapshot");
+    }
 
     return actions.addMessage(message);
   });
@@ -26,13 +34,14 @@ const addNewMessages$ = (action$: ActionObservable): Observable<Action> =>
 const updateOnlineUsers$ = (action$: ActionObservable): Observable<Action> =>
   usersService.usersSnapshot$.map(function(snapshot: DataSnapshot) {
     var db = snapshot.val();
-    if (!db) return SharedActions.nullAction();
 
-    var users = Object.keys(db).map(function(key: string) {
+    if (!db) {
+      return actions.errorUpdatingOnlineUsers("Snapshot has no value");
+    }
+
+    var users: Array<User> = Object.keys(db).map(function(key: string) {
       return db[key];
     });
-
-    if (!users) return SharedActions.nullAction();
 
     return actions.updateOnlineUsers(users);
   });
@@ -45,7 +54,7 @@ export const postMessage$ = (action$: ActionObservable): Observable<Action> =>
   action$.ofType(actions.POST_MESSAGE).map(action => {
     messagesService.postMessage(action.payload);
 
-    return SharedActions.nullAction();
+    return actions.messagePosted();
   });
 
 // Export all epics

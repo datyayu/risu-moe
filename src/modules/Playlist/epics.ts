@@ -9,7 +9,6 @@ import {
 import { playlistService, cloudFilesService } from "../../services";
 import * as Selectors from "./selectors";
 import * as actions from "./actions";
-import { actions as SharedActions } from "../../shared";
 
 /*******************
  *      EPICS      *
@@ -21,7 +20,10 @@ import { actions as SharedActions } from "../../shared";
 const setPlaylist$ = (action$: ActionObservable): Observable<Action> =>
   playlistService.playlistSnapshot$.map(function(snapshot: DataSnapshot) {
     var db = snapshot.val();
-    if (!db) return SharedActions.nullAction();
+
+    if (!db) {
+      return actions.errorUpdatingPlaylist();
+    }
 
     var songs = Object.keys(db).map(function(key: string) {
       return db[key];
@@ -65,7 +67,7 @@ const loadSongs$ = (
     }
 
     // Do nothing.
-    return SharedActions.nullAction();
+    return actions.noNeedToFetch();
   });
 
 /**
@@ -101,7 +103,7 @@ const fetchSecondSong$ = (
       nextSong && Selectors.getBufferIds(state).some(id => id === nextSong.id);
 
     if (!nextSong || nextSongWasFetched) {
-      return SharedActions.nullAction();
+      return actions.noNeedToFetch();
     }
 
     return actions.fetchSong(nextSong);

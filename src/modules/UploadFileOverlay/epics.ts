@@ -7,7 +7,6 @@ import {
 } from "../../services";
 import * as actions from "./actions";
 import * as Selectors from "./selectors";
-import { actions as SharedActions } from "../../shared";
 
 // Audio Element to get the file duration before uploading.
 const audioElement = document.createElement("AUDIO") as HTMLAudioElement;
@@ -112,7 +111,7 @@ const updateUploadingProgress$ = (
     }
 
     if (!update.progress) {
-      return SharedActions.nullAction();
+      return actions.errorUpdatingProgress();
     }
 
     return actions.updateProgress(update.progress);
