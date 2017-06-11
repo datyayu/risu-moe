@@ -1,6 +1,6 @@
 # risu-moe
 
-A shared music player using your own music build using a lot of cool tech :)
+A shared music player using your own music built using a lot of cool tech :)
 
 More info: SOME DAY... maybe.
 
