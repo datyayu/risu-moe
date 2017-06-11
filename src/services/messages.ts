@@ -1,6 +1,5 @@
-import { EventTargetLike } from "rxjs/observable/FromEventObservable";
-import { Observable } from "rxjs/Observable";
-import { DataSnapshot, Database } from "../types";
+import { Subject } from "rxjs/Subject";
+import { DataSnapshot, Database, Message } from "../types";
 import { firebaseService } from "./_firebase";
 import { usersService } from "./users";
 
@@ -10,19 +9,32 @@ import { usersService } from "./users";
 
 class MessagesService {
   database: Database;
-  messagesSnapshot$: Observable<DataSnapshot>;
+  messages$: Subject<Message>;
 
   constructor() {
     this.database = firebaseService.database();
+    this.messages$ = new Subject();
 
     const msgsRef = this.database
       .ref("messages")
       .orderByChild("updated")
       .equalTo(true)
-      .limitToLast(10) as EventTargetLike;
+      .limitToLast(10);
+
+    this.handleMessageAdded = this.handleMessageAdded.bind(this);
 
     // Convert the message ref to an observable.
-    this.messagesSnapshot$ = Observable.fromEvent(msgsRef, "child_added");
+    msgsRef.on("child_added", this.handleMessageAdded);
+  }
+
+  handleMessageAdded(snapshot: DataSnapshot) {
+    const message: Message = snapshot.val();
+
+    if (!message) {
+      return this.messages$.next();
+    }
+
+    this.messages$.next(message);
   }
 
   /**

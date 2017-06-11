@@ -31,26 +31,16 @@ export function addMessage(message: Message): Action {
 
 /**
  * An error occurred while adding a message to the chat.
- *
- * @param error Error message.
  */
-export function errorAddingMesage(error: string): Action {
-  return {
-    type: ERROR_ADDING_MESSAGE,
-    payload: error
-  };
+export function errorAddingMesage(): Action {
+  return { type: ERROR_ADDING_MESSAGE };
 }
 
 /**
  * An error occurred while updating online users list.
- *
- * @param error Error message.
  */
-export function errorUpdatingOnlineUsers(error: string): Action {
-  return {
-    type: ERROR_ADDING_MESSAGE,
-    payload: error
-  };
+export function errorUpdatingOnlineUsers(): Action {
+  return { type: ERROR_ADDING_MESSAGE };
 }
 
 /**

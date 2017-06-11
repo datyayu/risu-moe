@@ -1,11 +1,5 @@
 import { Observable } from "rxjs/Observable";
-import {
-  Action,
-  Message,
-  ActionObservable,
-  DataSnapshot,
-  User
-} from "../../types";
+import { Action, Message, ActionObservable, User } from "../../types";
 import { messagesService, usersService } from "../../services";
 import * as actions from "./actions";
 
@@ -17,11 +11,9 @@ import * as actions from "./actions";
  * On new messages, add that message to the chat.
  */
 const addNewMessages$ = (action$: ActionObservable): Observable<Action> =>
-  messagesService.messagesSnapshot$.map(function(snapshot: DataSnapshot) {
-    const message: Message = snapshot.val();
-
+  messagesService.messages$.map(function(message: Message | undefined) {
     if (!message) {
-      return actions.errorAddingMesage("No message was found in snapshot");
+      return actions.errorAddingMesage();
     }
 
     return actions.addMessage(message);
@@ -32,16 +24,10 @@ const addNewMessages$ = (action$: ActionObservable): Observable<Action> =>
  * as well.
  */
 const updateOnlineUsers$ = (action$: ActionObservable): Observable<Action> =>
-  usersService.usersSnapshot$.map(function(snapshot: DataSnapshot) {
-    var db = snapshot.val();
-
-    if (!db) {
-      return actions.errorUpdatingOnlineUsers("Snapshot has no value");
+  usersService.users$.map(function(users: Array<User>) {
+    if (!users) {
+      return actions.errorUpdatingOnlineUsers();
     }
-
-    var users: Array<User> = Object.keys(db).map(function(key: string) {
-      return db[key];
-    });
 
     return actions.updateOnlineUsers(users);
   });

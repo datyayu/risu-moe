@@ -1,5 +1,3 @@
-import { EventTargetLike } from "rxjs/observable/FromEventObservable";
-import { Observable } from "rxjs/Observable";
 import * as Rx from "rxjs";
 import { User, Database, DataSnapshot } from "../types";
 import { firebaseService } from "./_firebase";
@@ -10,14 +8,30 @@ import { firebaseService } from "./_firebase";
 
 class UsersService {
   database: Database;
-  usersSnapshot$: Observable<DataSnapshot>;
+  users$: Rx.Subject<Array<User>>;
 
   constructor() {
     this.database = firebaseService.database();
+    this.users$ = new Rx.Subject();
 
-    const presenceRef = this.database.ref("presence") as EventTargetLike;
+    this.handlePresenceUpdate = this.handlePresenceUpdate.bind(this);
 
-    this.usersSnapshot$ = Rx.Observable.fromEvent(presenceRef, "value");
+    const presenceRef = this.database.ref("presence");
+    presenceRef.on("value", this.handlePresenceUpdate);
+  }
+
+  handlePresenceUpdate(snapshot: DataSnapshot): void {
+    var db = snapshot.val();
+
+    if (!db) {
+      return this.users$.next();
+    }
+
+    var users: Array<User> = Object.keys(db).map(function(key: string) {
+      return db[key];
+    });
+
+    this.users$.next(users);
   }
 
   /*******************

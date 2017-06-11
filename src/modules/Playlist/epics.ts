@@ -1,11 +1,5 @@
 import { Observable } from "rxjs/Observable";
-import {
-  Action,
-  ActionObservable,
-  AppStore,
-  Song,
-  DataSnapshot
-} from "../../types";
+import { Action, ActionObservable, AppStore, Song } from "../../types";
 import { playlistService, cloudFilesService } from "../../services";
 import * as Selectors from "./selectors";
 import * as actions from "./actions";
@@ -18,16 +12,10 @@ import * as actions from "./actions";
  * When remote playlist is updated, update also the local one.
  */
 const setPlaylist$ = (action$: ActionObservable): Observable<Action> =>
-  playlistService.playlistSnapshot$.map(function(snapshot: DataSnapshot) {
-    var db = snapshot.val();
-
-    if (!db) {
+  playlistService.playlist$.map(function(songs: Array<Song>) {
+    if (!songs) {
       return actions.errorUpdatingPlaylist();
     }
-
-    var songs = Object.keys(db).map(function(key: string) {
-      return db[key];
-    });
 
     return actions.setPlaylist(songs);
   });

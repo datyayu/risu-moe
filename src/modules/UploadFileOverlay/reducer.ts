@@ -38,6 +38,13 @@ export function reducer(state: State = initialState, action: Action): State {
         isUploading: false
       };
 
+    case actions.START_UPLOADING:
+      return {
+        progress: 0,
+        isActive: true,
+        isUploading: true
+      };
+
     // Update the current upload progress.
     case actions.UPDATE_PROGRESS:
       return {

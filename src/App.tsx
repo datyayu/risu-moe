@@ -7,6 +7,10 @@ import { UploadFileOverlayComponent } from "./modules/UploadFileOverlay";
 import "./App.css";
 import "./modal.css";
 
+/*******************
+ *    COMPONENT    *
+ *******************/
+
 export function App() {
   return (
     <div
