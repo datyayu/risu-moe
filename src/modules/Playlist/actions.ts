@@ -8,6 +8,7 @@ export const ERROR_UPDATING_PLAYLIST = "playlist/ERROR_UPDATING_PLAYLIST";
 export const FETCH_SONG = "playlist/FETCH_SONG";
 export const FETCH_SECOND_SONG = "playlist/FETCH_SECOND_SONG";
 export const NO_NEED_TO_FETCH = "playlist/NO_NEED_TO_FETCH";
+export const NO_NEED_TO_PLAY = "playlist/NO_NEED_TO_PLAY";
 export const SET_PLAYLIST = "playlist/SET_PLAYLIST";
 export const SET_SONG_BUFFER = "playlist/SET_SONG_BUFFER";
 export const SONG_FETCHED = "playlist/SONG_FETCHED";
@@ -56,6 +57,13 @@ export function noNeedToFetch(): Action {
 }
 
 /**
+ * There is no need to play any song.
+ */
+export function noNeedToPlay(): Action {
+  return { type: NO_NEED_TO_PLAY };
+}
+
+/**
  * Set playlist songs.
  *
  * @param songs Songs in playlist.
@@ -84,8 +92,11 @@ export function setSongBuffer(id: string, buffer: ArrayBuffer): Action {
  * Notify when the current song buffer has been
  * fetched successfully
  */
-export function songFetched(): Action {
-  return { type: SONG_FETCHED };
+export function songFetched(songId: string): Action {
+  return {
+    type: SONG_FETCHED,
+    payload: songId
+  };
 }
 
 /**

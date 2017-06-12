@@ -1,10 +1,22 @@
 import { AppState, Song } from "../../types";
 
 /**
- * Get all the songs in the current playlist.
+ * Get the list of song ids in the buffer list.
  */
-export function getPlaylistSongs(state: AppState): Array<Song> {
-  return state.playlist.songs;
+export function getBufferIds(state: AppState): Array<string> {
+  return Object.keys(state.playlist.buffers);
+}
+
+/**
+ * Get a buffer by its id, if it exists.
+ *
+ * @param id Buffer id to fetch.
+ */
+export function getBufferById(
+  state: AppState,
+  id: string
+): ArrayBuffer | undefined {
+  return state.playlist.buffers[id];
 }
 
 /**
@@ -22,10 +34,10 @@ export function getNextSong(state: AppState): Song | undefined {
 }
 
 /**
- * Get the list of song ids in the buffer list.
+ * Get all the songs in the current playlist.
  */
-export function getBufferIds(state: AppState): Array<string> {
-  return Object.keys(state.playlist.buffers);
+export function getPlaylistSongs(state: AppState): Array<Song> {
+  return state.playlist.songs;
 }
 
 /**

@@ -3,6 +3,7 @@ import { Action, ActionObservable, AppStore, Song } from "../../types";
 import { playlistService, cloudFilesService } from "../../services";
 import * as Selectors from "./selectors";
 import * as actions from "./actions";
+import * as PlayerActions from "../Player/actions";
 
 /*******************
  *      EPICS      *
@@ -14,7 +15,7 @@ import * as actions from "./actions";
 const setPlaylist$ = (action$: ActionObservable): Observable<Action> =>
   playlistService.playlist$.map(function(songs: Array<Song>) {
     if (!songs) {
-      return actions.errorUpdatingPlaylist();
+      return actions.setPlaylist([]);
     }
 
     return actions.setPlaylist(songs);
@@ -34,6 +35,10 @@ const loadSongs$ = (
   action$.ofType(actions.SET_PLAYLIST).map(function(action: Action) {
     const songs = action.payload as Array<Song>;
     const state = store.getState();
+
+    if (songs.length === 0) {
+      return actions.noNeedToFetch();
+    }
 
     // Try to fetch the first one.
     const firstSong = songs[0];
@@ -70,7 +75,7 @@ const fetchSong$ = (action$: ActionObservable): Observable<Action> =>
     return Observable.from(request).switchMap(buffer =>
       Observable.from([
         actions.setSongBuffer(song.id, buffer),
-        actions.songFetched()
+        actions.songFetched(song.id)
       ])
     );
   });
@@ -97,5 +102,27 @@ const fetchSecondSong$ = (
     return actions.fetchSong(nextSong);
   });
 
+const playFetchedSong$ = (
+  actions$: ActionObservable,
+  store: AppStore
+): Observable<Action> =>
+  actions$.ofType(actions.SONG_FETCHED).map(action => {
+    const songId = action.payload as string;
+    const state = store.getState();
+    const currentSong = Selectors.getCurrentSong(state);
+
+    if (currentSong && songId === currentSong.id) {
+      return PlayerActions.play(songId);
+    }
+
+    return actions.noNeedToPlay();
+  });
+
 // Export all epics.
-export const epics = [setPlaylist$, loadSongs$, fetchSong$, fetchSecondSong$];
+export const epics = [
+  fetchSong$,
+  fetchSecondSong$,
+  loadSongs$,
+  playFetchedSong$,
+  setPlaylist$
+];
