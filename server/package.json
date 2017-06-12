@@ -12,6 +12,7 @@
     "bluebird": "^3.5.0",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
+    "firebase": "^4.1.2",
     "node-ts": "^2.1.2",
     "redis": "^2.7.1",
     "socket.io": "^2.0.2",

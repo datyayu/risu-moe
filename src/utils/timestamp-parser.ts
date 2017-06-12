@@ -1,3 +1,5 @@
+import { leftPadding } from "./string-padding";
+
 /**
  * Converts an Unix timestamp to a [HH:MM:SS] format.
  *
@@ -6,9 +8,9 @@
 export function parseTimestamp(timestamp: number): string {
   const date = new Date(timestamp);
   // TODO: Padding
-  const hour = date.getHours().toString();
-  const minutes = date.getMinutes().toString();
-  const seconds = date.getSeconds().toString();
+  const hour = leftPadding(date.getHours().toString(), "0", 2);
+  const minutes = leftPadding(date.getMinutes().toString(), "0", 2);
+  const seconds = leftPadding(date.getSeconds().toString(), "0", 2);
 
   return `[${hour}:${minutes}:${seconds}]`;
 }

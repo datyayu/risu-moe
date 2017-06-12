@@ -1,7 +1,11 @@
 import { Song, CurrentSong } from "../types/Song";
 import { createClient } from "redis";
+import * as https from "https";
 
 type SongCallback = (s?: CurrentSong | string) => any;
+
+const FIREBASE_DELETE_ENDPOINT =
+  "https://us-central1-risu-moe.cloudfunctions.net/deleteSong";
 
 class PlaylistService {
   client: any;
@@ -58,8 +62,10 @@ class PlaylistService {
 
       // If song ended its duration, play next song.
       if (currentTime >= songDuration) {
-        await this.popCurrentSong();
+        const oldSongId = await this.popCurrentSong();
         const newSong = await this.getFirstSongFromPlaylist();
+
+        await this.removeSongFromFirebase(oldSongId);
 
         if (!newSong) {
           await this.removeCurrentSong();
@@ -78,6 +84,12 @@ class PlaylistService {
       // On error, clear the current song ref.
       console.log(error);
     }
+  }
+
+  async removeSongFromFirebase(songId: string): Promise<{}> {
+    return new Promise(function(resolve) {
+      https.get(`${FIREBASE_DELETE_ENDPOINT}?id=${songId}`, () => resolve());
+    });
   }
 
   async getFirstSongFromPlaylist(): Promise<Song | undefined> {
@@ -101,8 +113,8 @@ class PlaylistService {
     return song;
   }
 
-  async popCurrentSong(): Promise<void> {
-    await this.client.lpopAsync("playlist");
+  async popCurrentSong(): Promise<string> {
+    return await this.client.lpopAsync("playlist");
   }
 
   async removeCurrentSong(): Promise<void> {
@@ -113,6 +125,7 @@ class PlaylistService {
       "duration",
       "name",
       "user",
+      "ref",
       "currentTime"
     );
   }
