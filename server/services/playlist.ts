@@ -53,7 +53,8 @@ class PlaylistService {
 
       // No song is registered as playing, play the one from the playlist.
       if (!currentSong) {
-        currentSong = { ...songFromPlaylist, currentTime: "0" };
+        // -1 will be incremented later so it will send 0 to the client.
+        currentSong = { ...songFromPlaylist, currentTime: "-1" };
         await this.setCurrentSong(currentSong);
       }
 
@@ -121,7 +122,7 @@ class PlaylistService {
     await this.client.hdelAsync(
       "currentSong",
       "id",
-      "fileUrl",
+      "url",
       "duration",
       "name",
       "user",

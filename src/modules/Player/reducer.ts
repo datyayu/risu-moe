@@ -24,8 +24,21 @@ export function reducer(state: State = initialState, action: Action): State {
     // Update currently playing song data.
     case actions.UPDATE_SONG:
       return {
-        isPlaying: true,
+        ...state,
         currentSong: action.payload
+      };
+
+    case actions.STOP:
+    case actions.BUFFER_NOT_FOUND:
+      return {
+        ...state,
+        isPlaying: false
+      };
+
+    case actions.PLAY_STARTED:
+      return {
+        ...state,
+        isPlaying: true
       };
 
     // End playing.

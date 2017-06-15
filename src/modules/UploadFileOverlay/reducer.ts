@@ -38,6 +38,7 @@ export function reducer(state: State = initialState, action: Action): State {
         isUploading: false
       };
 
+    // Uploading has started, show the upload progress.
     case actions.START_UPLOADING:
       return {
         progress: 0,
@@ -51,6 +52,14 @@ export function reducer(state: State = initialState, action: Action): State {
         isActive: true,
         isUploading: true,
         progress: action.payload
+      };
+
+    // Uploading process has finished, hide the overlay.
+    case actions.SONG_ADDED_TO_PL:
+      return {
+        isActive: false,
+        isUploading: false,
+        progress: 0
       };
 
     // Default.

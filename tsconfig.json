@@ -22,6 +22,7 @@
   },
   "exclude": [
     "server",
+    "cloud-functions",
     "node_modules",
     "build",
     "scripts",

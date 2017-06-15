@@ -3,7 +3,8 @@ import { Action, ActionObservable, AppStore, SongMetadata } from "../../types";
 import {
   usersService,
   cloudFilesService,
-  FileUploadUpdate
+  FileUploadUpdate,
+  playlistService
 } from "../../services";
 import * as actions from "./actions";
 import * as Selectors from "./selectors";
@@ -106,6 +107,10 @@ const updateUploadingProgress$ = (
   action$: ActionObservable
 ): Observable<Action> =>
   cloudFilesService.fileUploadTask$.map(function(update: FileUploadUpdate) {
+    if (update.done && update.song) {
+      return actions.addSongToRemotePlaylist(update.song);
+    }
+
     if (update.done || update.error) {
       return actions.hideOverlay();
     }
@@ -117,8 +122,18 @@ const updateUploadingProgress$ = (
     return actions.updateProgress(update.progress);
   });
 
+const addSongToPlaylist$ = (action$: ActionObservable): Observable<Action> =>
+  action$.ofType(actions.ADD_SONG_TO_REMOTE_PL).map(function(action: Action) {
+    const song = action.payload as SongMetadata;
+
+    playlistService.addSongToPlaylist(song);
+
+    return actions.songAddedToPl(song);
+  });
+
 // Export all epics.
 export const epics = [
+  addSongToPlaylist$,
   handleDragOver$,
   handleDragLeave$,
   handleFileDrop$,

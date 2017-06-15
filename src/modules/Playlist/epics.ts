@@ -50,6 +50,11 @@ const loadSongs$ = (
 
     // Try to fetch the second one.
     const secondSong = songs[1];
+
+    if (!secondSong) {
+      return actions.noNeedToFetch();
+    }
+
     const secondSongWasFetched = Selectors.isIdInBufferList(
       state,
       secondSong.id

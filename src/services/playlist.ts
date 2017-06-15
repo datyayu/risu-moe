@@ -1,4 +1,4 @@
-import { Database, DataSnapshot, Song } from "../types";
+import { Database, DataSnapshot, Song, SongMetadata } from "../types";
 import { firebaseService } from "./_firebase";
 import { Subject } from "rxjs/Subject";
 
@@ -19,6 +19,19 @@ class PlaylistService {
 
     // Convert the playlist ref to an observable.
     playlistRef.on("value", this.handlePlaylistUpdate);
+  }
+
+  addSongToPlaylist(song: SongMetadata): void {
+    const entry = this.database.ref("/playlist").push();
+
+    entry.set({
+      id: entry.key,
+      ref: song.ref,
+      name: song.name,
+      duration: song.duration,
+      user: song.user,
+      url: song.downloadUrl
+    });
   }
 
   handlePlaylistUpdate(snapshot: DataSnapshot) {

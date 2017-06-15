@@ -10,6 +10,8 @@ export const PLAY = "player/PLAY";
 export const PLAY_STARTED = "player/PLAY_STARTED";
 export const SEEK = "player/SEEK";
 export const SEEK_DONE = "player/SEEK_DONE";
+export const STOP = "player/STOP";
+export const STOPPED = "player/STOPPED";
 export const UPDATE_SONG = "player/UPDATE_SONG";
 
 /*******************
@@ -71,6 +73,20 @@ export function seek(time: number): Action {
  */
 export function seekDone(): Action {
   return { type: SEEK_DONE };
+}
+
+/**
+ * Stop the player service and delete the loaded buffer.
+ */
+export function stop(): Action {
+  return { type: STOP };
+}
+
+/**
+ * Stop the player service and delete the loaded buffer.
+ */
+export function stopped(): Action {
+  return { type: STOPPED };
 }
 
 /**

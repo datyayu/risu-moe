@@ -11,6 +11,7 @@ export type FileUploadUpdate = {
   done: boolean;
   progress?: number;
   error?: Error;
+  song?: SongMetadata;
 };
 
 /*******************
@@ -18,8 +19,10 @@ export type FileUploadUpdate = {
  *******************/
 
 class CloudFilesService {
-  storage: storage.Storage;
-  fileUploadTask$: Subject<FileUploadUpdate>;
+  private storage: storage.Storage;
+  private task: storage.UploadTask;
+
+  public fileUploadTask$: Subject<FileUploadUpdate>;
 
   constructor() {
     this.storage = firebaseService.storage();
@@ -43,12 +46,12 @@ class CloudFilesService {
   uploadFile(file: File, metadata: SongMetadata) {
     const refName = Date.now() + "-" + file.name;
 
-    const task = this.storage
+    this.task = this.storage
       .ref("files")
       .child(refName)
       .put(file, { customMetadata: metadata as any });
 
-    task.on(
+    this.task.on(
       "state_changed",
       this.handleFileUploadUpdate,
       this.handleFileUploadError,
@@ -93,10 +96,37 @@ class CloudFilesService {
    * the `fileUploadTask$` Subject stream.
    */
   handleFileUploadComplete(): void {
+    const file = this.task.snapshot;
+    const metadata = file.metadata;
+    const customMetadata = metadata.customMetadata as SongMetadata;
+
+    if (
+      !customMetadata ||
+      !customMetadata.userId ||
+      !customMetadata.userName ||
+      !metadata.downloadURLs[0]
+    ) {
+      return;
+    }
+
+    const userHash = customMetadata.userId.slice(
+      -5,
+      customMetadata.userId.length
+    );
+
+    const songInfo: SongMetadata = {
+      name: customMetadata.name,
+      ref: metadata.fullPath,
+      duration: customMetadata.duration,
+      user: `${customMetadata.userName}#${userHash}`,
+      downloadUrl: metadata.downloadURLs[0]
+    };
+
     this.fileUploadTask$.next({
       done: true,
       error: undefined,
-      progress: 100
+      progress: 100,
+      song: songInfo
     });
   }
 
@@ -110,10 +140,7 @@ class CloudFilesService {
    * @param url Url to request the file.
    */
   async fetchFile(url: string): Promise<ArrayBuffer> {
-    const metadataResponse = await fetch(url);
-    const metadata = await metadataResponse.json();
-    const mediaUrl = metadata.mediaLink;
-    const mediaResponse = await fetch(mediaUrl);
+    const mediaResponse = await fetch(url);
     const arrayBuffer = await mediaResponse.arrayBuffer();
 
     return arrayBuffer;

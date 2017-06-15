@@ -29,6 +29,7 @@ class PlayerService {
   private volumeGainNode: GainNode;
 
   // Player options
+  private hasBufferLoaded: boolean;
   private isPlaying: boolean;
   private volume: number;
 
@@ -51,6 +52,7 @@ class PlayerService {
     this.getUpdatedPlaybackTime = this.getUpdatedPlaybackTime.bind(this);
     this.pause = this.pause.bind(this);
     this.play = this.play.bind(this);
+    this.stop = this.stop.bind(this);
     this.playBuffer = this.playBuffer.bind(this);
   }
 
@@ -111,7 +113,7 @@ class PlayerService {
    * Play the current audio buffer.
    */
   play() {
-    if (this.isPlaying || !this.buffer) return;
+    if (this.isPlaying || !this.hasBufferLoaded || !this.buffer) return;
 
     // Setup nodes
     this.volumeGainNode.gain.value = this.volume;
@@ -129,16 +131,39 @@ class PlayerService {
   }
 
   /**
+   * Stop playing the current buffer.
+   */
+  stop(): void {
+    if (!this.isPlaying) return;
+    if (!this.sourceNode) return;
+
+    this.sourceNode.stop(0);
+    this.hasBufferLoaded = false;
+    this.isPlaying = false;
+    this.onPausePlaybackTime = 0;
+  }
+
+  /**
    * Play an audio buffer.
    */
-  async playBuffer(rawBuffer: ArrayBuffer): Promise<void> {
+  async playBuffer(rawBuffer: ArrayBuffer, bufferId: string): Promise<string> {
+    this.stop();
+    this.isPlaying = false;
+
     try {
       const convertedBuffer = await this.arrayBufferToAudioBuffer(rawBuffer);
       this.buffer = convertedBuffer;
+      this.hasBufferLoaded = true;
+
+      this.sourceNode = this.audioContext.createBufferSource();
+      this.sourceNode.buffer = convertedBuffer;
+
       this.play();
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
+
+    return bufferId;
   }
 
   /**

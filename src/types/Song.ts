@@ -13,8 +13,11 @@ export type CurrentSong = Song & {
 
 export type SongMetadata = {
   id?: string;
+  ref?: string;
+  downloadUrl?: string;
+  user?: string;
+  userId?: string;
+  userName?: string;
   name: string;
   duration: string;
-  userId: string;
-  userName: string;
 };
