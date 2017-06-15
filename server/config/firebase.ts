@@ -1,4 +1,7 @@
-// Firebase base config.
+/*******************
+ * FIREBASE CONFIG *
+ *******************/
+
 export const config = {
   apiKey: "AIzaSyAJBpY2c0uBjQOIYci3KACdn4IRGgwSckA",
   authDomain: "risu-moe.firebaseapp.com",

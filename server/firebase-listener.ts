@@ -1,10 +1,23 @@
+import { CurrentSong } from "./types/Song";
 import { firebaseService } from "./services/_firebase";
 import { playlistService } from "./services/playlist";
-import { CurrentSong } from "./types/Song";
+
+/*******************
+ *  DB REFERENCES  *
+ *******************/
 
 const database = firebaseService.database();
+const playlistRef = database.ref("/playlist");
 
-database.ref("/playlist").on("child_added", async function(snapshot) {
+/*******************
+ *    LISTENER     *
+ *******************/
+
+/**
+ * Whenever an entry is added to the remote playlist, add
+ * it to the local db playlist as well.
+ */
+playlistRef.on("child_added", async function(snapshot) {
   if (!snapshot) return;
 
   const song: CurrentSong = snapshot.val();

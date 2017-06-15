@@ -6,8 +6,8 @@ import { config } from "../config/firebase";
  *******************/
 
 class FirebaseService {
-  _database: database.Database;
-  _app: app.App;
+  private _database: database.Database;
+  private _app: app.App;
 
   constructor() {
     this._app = initializeApp(config);
